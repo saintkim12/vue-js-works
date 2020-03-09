@@ -239,6 +239,22 @@ new Vue({
 
 ## watch
 data(또는 computed)에 바인딩된 값이 변할 때의 이벤트를 정의할 수 있다
+```js
+new Vue({
+  data: function() {
+    return {
+      message: 'hello'
+    }
+  },
+  watch: {
+    // data(computed)내의 데이터명을 함수 key로 한다.
+    message: function(value, oldValue) {
+      // 변경될 때마다 이전값과 현재값을 출력
+      console.log('message', oldValue, '>', value)
+    }
+  }
+})
+```
 
 ## components
 템플릿에서 외부 라이브러리 또는 이전에 선언한 Vue 객체 등 외부 컴포넌트를 사용할 때 선언해줘야 사용 가능하다
@@ -252,6 +268,6 @@ new Vue({
 })
 ```
 
-# Thanks to
-[Vue.js(kr) Guide](https://kr.vuejs.org/v2/guide/index.html)
-[Vue에서 컴포넌트 템플릿을 정의하는 7가지 방법](https://github.com/FEDevelopers/tech.description/wiki/Vue%EC%97%90%EC%84%9C-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8-%ED%85%9C%ED%94%8C%EB%A6%BF%EC%9D%84-%EC%A0%95%EC%9D%98%ED%95%98%EB%8A%94-7%EA%B0%80%EC%A7%80-%EB%B0%A9%EB%B2%95)
+# 참고 및 Thanks to
+- [Vue.js(kr) Guide](https://kr.vuejs.org/v2/guide/index.html)
+- [Vue에서 컴포넌트 템플릿을 정의하는 7가지 방법](https://github.com/FEDevelopers/tech.description/wiki/Vue%EC%97%90%EC%84%9C-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8-%ED%85%9C%ED%94%8C%EB%A6%BF%EC%9D%84-%EC%A0%95%EC%9D%98%ED%95%98%EB%8A%94-7%EA%B0%80%EC%A7%80-%EB%B0%A9%EB%B2%95)
