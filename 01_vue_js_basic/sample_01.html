@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sample</title>
+<!-- 개발버전, 도움되는 콘솔 경고를 포함. -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+  <div id="page"></div>
+</body>
+<script>
+  var Page = new Vue({
+    template: [
+      '<div>',
+      '  <h1>Vue.js로 만들어진 페이지입니다.</h1>',
+      '  <div style="width: calc(100% - 22px); height: calc(100vh - 145px); border: 1px solid black; padding: 5px 10px;">',
+      '    <template v-if="!logList.length">',
+      '      <div style="text-align: center; color: #bbb;">입력된 데이터가 없습니다.</div>',
+      '    </template>',
+      '    <template v-else>',
+      '      <div v-for="(item, i) in logList.slice().reverse()">',
+      '        <span>{{ item.text }}</span>',
+      '        <span> [{{ item.time }}]</span>',
+      '      </div>',
+      '    </template>',
+      '  </div>',
+      '  <input type="text" v-model="newInput" @keypress.enter="addText" placeholder="문장을 입력하세요" style="width: calc(100% - 180px);">',
+      '  <button type="button" @click="addText" style="width: 150px;">입력(Enter)</button>',
+      '</div>'
+    ].join(''),
+    data: function() {
+      return {
+        logList: [],
+        newInput: ''
+      }
+    },
+    methods: {
+      addText: function() {
+        var text = this.newInput
+        if (!text)
+          return
+
+        this.logList.push({ text: text, time: new Date().toLocaleTimeString() })
+        this.newInput = ''
+      }
+    }
+  })
+  Page.$mount('#page')
+</script>
+</html>

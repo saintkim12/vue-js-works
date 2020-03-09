@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>compare</title>
+<!-- 개발버전, 도움되는 콘솔 경고를 포함. -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!-- jquery slim min js -->
+<script
+  src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+  integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+  crossorigin="anonymous"></script>
+</head>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+  }
+  #wrap {
+    display: flex;
+    height: 100%;
+  }
+  .side {
+    flex: 1;
+    height: calc(100% - 22px);
+    padding: 10px;
+    border: 1px solid black;
+  }
+</style>
+<body>
+<div id="wrap">
+  <div id="side-vue" class="side">
+    <h1>Vue.js</h1>
+    <hr>
+    <h2>Case 1::내용 변경 및 실시간 반영</h2>
+    <div class="case-1"></div>
+    <h2>Case 2::클릭 이벤트, 리스트 출력(반복문)</h2>
+    <div class="case-2"></div>
+  </div>
+  <div id="side-jquery" class="side">
+    <h1>jQuery</h1>
+    <hr>
+    <h2>Case 1::내용 변경 및 실시간 반영</h2>
+    <div class="case-1">
+      <div>
+        <h3 class="subtitle">소제목</h3>
+        <input class="subtitle" type="text" placeholder="소제목 변경">
+      </div>
+    </div>
+    <h2>Case 2::클릭 이벤트, 리스트 출력(반복문)</h2>
+    <div class="case-2">
+      <div>
+        <button class="get-data">데이터 출력하기</button>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>title</th>
+              <th>completed</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<script data-side="common">
+function getData() {
+  return [ { userId: 1, id: 1, title: "delectus aut autem", completed: false }, { userId: 1, id: 2, title: "quis ut nam facilis et officia qui", completed: false }, { userId: 1, id: 3, title: "fugiat veniam minus", completed: false }, { userId: 1, id: 4, title: "et porro tempora", completed: true }, { userId: 1, id: 5, title: "laboriosam mollitia et enim quasi adipisci quia provident illum", completed: false }, { userId: 1, id: 6, title: "qui ullam ratione quibusdam voluptatem quia omnis", completed: false }, { userId: 1, id: 7, title: "illo expedita consequatur quia in", completed: false }, { userId: 1, id: 8, title: "quo adipisci enim quam ut ab", completed: true }, { userId: 1, id: 9, title: "molestiae perspiciatis ipsa", completed: false }, { userId: 1, id: 10, title: "illo est ratione doloremque quia maiores aut", completed: true }, ]
+}
+</script>
+<script data-side="vue">
+// case 1
+new Vue({
+  el: '#side-vue .case-1',
+  template: [
+    '<div>',
+    '  <h3>{{ subtitle }}</h3>',
+    // '  <input type="text" v-model="subtitle" placeholder="소제목 변경">', // 조합 언어(IME:한글, 중국어 등)를 실시간으로 업데이트 해주려면 다른 처리가 필요
+    '  <input type="text" :value="subtitle" @input="subtitle = $event.target.value" placeholder="소제목 변경">',
+    '</div>'
+  ].join(''),
+  data: function() {
+    return {
+      subtitle: '소제목'
+    }
+  }
+})
+// case 2
+new Vue({
+  el: '#side-vue .case-2',
+  template: [
+    '<div>',
+    '  <button v-on:click="getData">데이터 출력하기</button>',
+    '  <table>',
+    '    <thead>',
+    '      <tr>',
+    '        <th>id</th>',
+    '        <th>title</th>',
+    '        <th>completed</th>',
+    '      </tr>',
+    '    </thead>',
+    '    <tbody>',
+    '      <tr v-for="(o) in list" :key="o.id">',
+    '        <td>{{ o.id }}</td>',
+    '        <td>{{ o.title }}</td>',
+    '        <td>{{ o.completed ? \'완료\' : \'미완료\' }}</td>',
+    '      </tr>',
+    '    </tbody>',
+    '  </table>',
+    '</div>',
+  ].join(''),
+  data: function() {
+    return {
+      list: []
+    }
+  },
+  methods: {
+    getData: function() {
+      // 데이터 변경 작업만 하면 화면이 알아서 변경됨(re-render)
+      this.list = [].concat(getData())
+    }
+  }
+})
+</script>
+<script data-side="jquery">
+// case 1
+$(function() {
+  var $text = $('#side-jquery .case-1 :text.subtitle')
+  var $title = $('#side-jquery .case-1 h3.subtitle')
+  // init
+  $text.val($title.text())
+  // event binding
+  $text.on('keyup', function(e) {
+    var title = $(this).val()
+    $title.text(title)
+  })
+})
+// case 2
+$(function() {
+  var $tbody = $('#side-jquery .case-2 table.data-table').find('tbody')
+  var $button = $('#side-jquery .case-2 button.get-data')
+  $button.on('click', function(e) {
+    // 데이터를 가져온 후
+    var list = getData()
+    // 화면에 적용(re-render) 하기 위해 html 생성
+    var html = [
+      list.map(function(o) { return [
+        '<tr>',
+        '  <td>', o.id, '</td>',
+        '  <td>', o.title, '</td>',
+        '  <td>', o.completed ? '완료' : '미완료', '</td>',
+        '</tr>'
+      ].join('') }),
+    ].join('')
+    // 화면에 적용(re-render)
+    $tbody.html(html)
+  })
+})
+</script>
+</body>
+</html>
