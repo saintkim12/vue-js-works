@@ -161,6 +161,23 @@ jQuery로 화면/데이터를 컨트롤해본
 ```
 
 # 기본 구조 이해
+## template
+- Vue 객체에 연동할 template를 문자열 형식으로 지정하여 Vue에 $mount(또는 new Vue({ el })로 연결한 Element)하여 Vue 객체를 화면에 출력할 수 있다
+- 기본적인 html 문법 외에 template 문법을 사용할 수 있다
+  ```html
+    <!-- 보간법: data()의 데이터를 연결 -->
+    <span>{{ message }}</span>
+    <!-- vue 속성: v-bind, v-on -->
+    <input v-bind:value="message">
+    <button v-on:click="onClick">클릭</button>
+    <!-- 반복문: v-for -->
+    <div v-for="o in list" :key="o.id">{{ o.value }}</div>
+    <!-- 조건문: v-if, v-else-if, v-else -->
+    <div v-if="message !== ''">{{ message }}</div>
+    <div v-else>입력된 메시지가 없어요</div>
+
+  ```
+
 ## data
 - Vue 객체와 연동할 데이터를 data 함수에 선언
 - data 함수는 값이 바뀔 때마다 동적으로 호출되므로, 함수에서 리턴하는 방식으로 구성해야 실시간 반영이 된다(나중에 데이터가 화면에서 바뀌지 않으면 백퍼 이거 문제)
@@ -209,7 +226,7 @@ jQuery로 화면/데이터를 컨트롤해본
 - Vue 객체가 파괴된 후 호출되는 함수
 - 난 안써봄
 
-## computed
+## computed(계산된 속성)
 - data와 비슷하나, 임의의 값 설정(set) 불가
 - 보통 data를 통해 계산된 값을 출력하도록 함
 - 함수 형태로 선언, this.함수명으로 조회 가능(실제로는 함수가 아니고 변수로 담김)
