@@ -20,7 +20,7 @@ es6 문법 사용가능조건 및 문법 소개
 1. 스크립트를 붙여넣는다
 
 ## 폴리필로 해결 불가능한 기능
-- ex> array function(() => {}), async/await, backtick(`hello ${message}`) 등
+- ex> array function(() => {}), async/await, backtick(\`hello ${message}\`) 등
 - 이는 js를 트랜스파일링(컴파일 같은거.. 동 레벨의 언어로 변경하기 때문에 컴파일은 아님)해서 해결할 수 있다
 - [Babel](https://babeljs.io/)을 사용하여 해결
 
@@ -32,14 +32,15 @@ es6 문법 사용가능조건 및 문법 소개
 
 # es6
 위에서 이야기한 특수한 문법 위주로 설명함
-(개발자 도구에서 칠 때 var 대신 let, var로 사용하면 중복 선언때문에 에러떠서 귀찮으니까 var로 선언했지만 실제로는 var 또는 let을 사용합니다)
+(개발자 도구에서 칠 때 var 대신 let, const로 사용하면 중복 선언때문에 에러떠서 귀찮으니까 var로 선언했지만 실제로는 const 또는 let을 사용합니다)
 
-## 화살표 함수(arrow function)
+## [화살표 함수(arrow function)](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Functions/%EC%95%A0%EB%A1%9C%EC%9A%B0_%ED%8E%91%EC%85%98)
 ```javascript
 var arrowFunction = (value) => 'Hello ' + value
 var basicFunction = function (value) {
   return 'Hello ' + value
 }
+
 var arrowFunctionWithoutReturn = (value) => { console.log('Hello ' + value) }
 var basicFunctionWithoutReturn = function (value) {
   console.log('Hello ' + value)
