@@ -9,18 +9,18 @@ dataportal과 동일하나, dataportal을 sub 경로로 넣어야 하는 것들�
 
 ## 작업 방법
 1. 구글 엑셀 시트에 작업할 페이지 확인
-  - 메뉴를 현재 사용자 기준으로 변경함
+    - 메뉴를 현재 사용자 기준으로 변경함
 1. 필요한 페이지 확인
-  - 기존 JSP 및 사용자 페이지를 주로 참조하기
-  - 마이플랫폼 페이지는 옛날에 작업한거라 안쓰는 것도 있고 바뀐 것도 있어서, 참고용으로만 보는게 좋음
+    - 기존 JSP 및 사용자 페이지를 주로 참조하기
+    - 마이플랫폼 페이지는 옛날에 작업한거라 안쓰는 것도 있고 바뀐 것도 있어서, 참고용으로만 보는게 좋음
 1. 필요한 페이지 작업 방향 설정
-  - 페이지 유형 확인(목록/상세/등록,수정/삭제/커스텀...)
-  - 필요한 기능들 확인
-  - 페이지 설계??
+    - 페이지 유형 확인(목록/상세/등록,수정/삭제/커스텀...)
+    - 필요한 기능들 확인
+    - 페이지 설계??
 1. 페이지 작업(백엔드는 생략)
-  1. 공통 부분을 제외한 페이지(*.vue)는 frontend/src/views/dataportal 내에 있음
-    - Dataportal.메뉴.기능(.유형).vue 형태로 구성
-  1. 목록 페이지는 base-table, 등록/수정 페이지는 form 및 vulidate(유효성체크, 나중에 해도 됨) 부분 참고...
+    1. 공통 부분을 제외한 페이지(*.vue)는 frontend/src/views/dataportal 내에 있음
+        - Dataportal.메뉴.기능(.유형).vue 형태로 구성
+    1. 목록 페이지는 base-table, 등록/수정 페이지는 form 및 vulidate(유효성체크, 나중에 해도 됨) 부분 참고...
 
 ## 목록 페이지 작업
 공통컴포넌트 > base-table 참고
@@ -94,171 +94,170 @@ export default {
 일반적인 게시판 형태(테이블, 검색폼, 페이징) 처리를 하는 컴포넌트
 ### 사용법
 1. 컴포넌트 import 및 components에 연결
-```js
-import BaseTable from '@/m114-common/components/base-table'
-export default {
-  // ..
-  components: {
-    BaseTable
-  },
-  // ..
-}
-```
-
-1. 필요한 data, computed 생성
-```js
-// ..
-import { apiUrl } from '@/m114-common/util/env'
-// ..
-export default {
-  // ..
-  data() {
-    return {
-      init: {
-        pagination: {}
-      },
-      ui: {
-        // ..
-        table: {
-          apiUrl: `${apiUrl}/...`, // 백엔드 API URL
-          fields: [
-            // 출력할 데이터 설정부
-          ].map((field, cellIndex) => /* global-settings */ Object.assign({ cellIndex, thClass: ['text-center'], tdClass: ['text-center'], sortable: false }, field))
-        }
-      },
-      form: {
-        table: {
-          // 테이블과 연결된 검색 조건부
-          searchText: ''
-        }
+    ```js
+    import BaseTable from '@/m114-common/components/base-table'
+    export default {
+      // ..
+      components: {
+        BaseTable
       },
       // ..
     }
-  },
-  computed: {
-    // 테이블 설정용 값
-    tableSettings() {
-      return {
-        apiUrl: this.ui.table.apiUrl, // 백엔드 API URL
-        fields: this.ui.table.fields, // 테이블 헤더 + 출력할 데이터 설정
-        form: this.form.table         // 검색 조건부 설정
-      }
+    ```
+1. 필요한 data, computed 생성
+    ```js
+    // ..
+    import { apiUrl } from '@/m114-common/util/env'
+    // ..
+    export default {
+      // ..
+      data() {
+        return {
+          init: {
+            pagination: {}
+          },
+          ui: {
+            // ..
+            table: {
+              apiUrl: `${apiUrl}/...`, // 백엔드 API URL
+              fields: [
+                // 출력할 데이터 설정부
+              ].map((field, cellIndex) => /* global-settings */ Object.assign({ cellIndex, thClass: ['text-center'], tdClass: ['text-center'], sortable: false }, field))
+            }
+          },
+          form: {
+            table: {
+              // 테이블과 연결된 검색 조건부
+              searchText: ''
+            }
+          },
+          // ..
+        }
+      },
+      computed: {
+        // 테이블 설정용 값
+        tableSettings() {
+          return {
+            apiUrl: this.ui.table.apiUrl, // 백엔드 API URL
+            fields: this.ui.table.fields, // 테이블 헤더 + 출력할 데이터 설정
+            form: this.form.table         // 검색 조건부 설정
+          }
+        }
+      },
     }
-  },
-}
-```
+    ```
 
 1. html(template)부 작성
-```html
-<template>
-  <!-- .. -->
-  <base-table ref="baseTable" :table="tableSettings" :init-pagination="init.pagination" @row-clicked="onRowClicked">
-    <template v-slot:search>
-      <!-- 검색 폼 부분 -->
-      <!--
-      <b-row>
-        <b-col offset-lg="8" lg="4" class="my-1">
-          <b-form-group class="mb-0">
-            <b-input-group size="sm">
-              <b-form-input
-                v-model="form.table.searchText"
-                type="search"
-                placeholder="검색"
-                @keypress.enter="search"
-              ></b-form-input>
-              <b-input-group-append>
-                <b-button @click="search"><i class="fe-search"/></b-button>
-              </b-input-group-append>
-            </b-input-group>
-          </b-form-group>
-        </b-col>
-      </b-row>
-      -->
+    ```html
+    <template>
+      <!-- .. -->
+      <base-table ref="baseTable" :table="tableSettings" :init-pagination="init.pagination" @row-clicked="onRowClicked">
+        <template v-slot:search>
+          <!-- 검색 폼 부분 -->
+          <!--
+          <b-row>
+            <b-col offset-lg="8" lg="4" class="my-1">
+              <b-form-group class="mb-0">
+                <b-input-group size="sm">
+                  <b-form-input
+                    v-model="form.table.searchText"
+                    type="search"
+                    placeholder="검색"
+                    @keypress.enter="search"
+                  ></b-form-input>
+                  <b-input-group-append>
+                    <b-button @click="search"><i class="fe-search"/></b-button>
+                  </b-input-group-append>
+                </b-input-group>
+              </b-form-group>
+            </b-col>
+          </b-row>
+          -->
+        </template>
+      </base-table>
+      <!-- .. -->
     </template>
-  </base-table>
-  <!-- .. -->
-</template>
-```
+    ```
 
 1. 테이블 출력 항목 작성
-```js
-// ..
-export default {
-  // ..
-  data() {
-    return {
+    ```js
+    // ..
+    export default {
       // ..
-      ui: {
-        // ..
-        table: {
+      data() {
+        return {
           // ..
-          fields: [
-            {
-              key: '..',          /* 컬럼의 구분값, 일반적으로 컬럼명의 camelCase */
-              label: '..',        /* thead에 출력할 텍스트 */
-              thClass: '',        /* th에 적용할 클래스(text-center, text-left, clickable...) */
-              thStyle: '',        /* th에 적용할 style */
-              tdClass: '',        /* td에 적용할 클래스(text-center, text-left, clickable...) */
-              tdStyle: '',        /* td에 적용할 style */
-              formatter: () => {} /* 출력되는 데이터를 변경 및 조합하고 싶을 때 사용
-                                   * (value, key, item) => {} 형태의 함수로 사용 가능하며,
-                                   * 자주 사용되는 formatter들이 @/m114-common/util/formatter 에 정의되어있음 */
-            },
-            {
-              /* .. */
+          ui: {
+            // ..
+            table: {
+              // ..
+              fields: [
+                {
+                  key: '..',          /* 컬럼의 구분값, 일반적으로 컬럼명의 camelCase */
+                  label: '..',        /* thead에 출력할 텍스트 */
+                  thClass: '',        /* th에 적용할 클래스(text-center, text-left, clickable...) */
+                  thStyle: '',        /* th에 적용할 style */
+                  tdClass: '',        /* td에 적용할 클래스(text-center, text-left, clickable...) */
+                  tdStyle: '',        /* td에 적용할 style */
+                  formatter: () => {} /* 출력되는 데이터를 변경 및 조합하고 싶을 때 사용
+                                      * (value, key, item) => {} 형태의 함수로 사용 가능하며,
+                                      * 자주 사용되는 formatter들이 @/m114-common/util/formatter 에 정의되어있음 */
+                },
+                {
+                  /* .. */
+                }
+              ].map((field, cellIndex) => /* global-settings */ Object.assign({ cellIndex, thClass: ['text-center'], tdClass: ['text-center'], sortable: false }, field))
+              /* 기타 공통부분 작업, cellIndex로 클릭 여부를 판단하고, 기타 공통 클래스(center로) 및 정렬(false)값 추가 */
             }
-          ].map((field, cellIndex) => /* global-settings */ Object.assign({ cellIndex, thClass: ['text-center'], tdClass: ['text-center'], sortable: false }, field))
-          /* 기타 공통부분 작업, cellIndex로 클릭 여부를 판단하고, 기타 공통 클래스(center로) 및 정렬(false)값 추가 */
+          }
+          // ..
         }
       }
       // ..
     }
-  }
-  // ..
-}
-```
+    ```
 
 1. 필요한 함수들 설정
-```js
-export default {
-  // ..
-  methods: {
-    // ..
-    // 검색 이벤트
-    search() {
-      this.$refs.baseTable.search()
-    },
-    // 행을 클릭했을 때 이벤트
-    onRowClicked({ seq /* item의 key */ }, row, { srcElement: { cellIndex = -1 } }) {
-      // item의 key로 클릭한 열의 인덱스를 알 수 있는 map 호출 
-      const cellIndexMap = this.$refs.baseTable.getCellIndexMap()
-      // 클릭 위치(cellIndex) 확인
-      if (cellIndexMap[cellIndex] === 'surveyNm' /* 클릭한 열의 위치가 'surveyNm'(위의 fields의 key값)열이라면 */) {
-        // routeTo 함수를 사용해 페이지 이동, 필요한 데이터(key 등)는 params에 담아 전달
-        this.routeTo((ROUTE) => ROUTE.PROJECT.DATA_BANK.WRITE, { params: { seq } })
+    ```js
+    export default {
+      // ..
+      methods: {
+        // ..
+        // 검색 이벤트
+        search() {
+          this.$refs.baseTable.search()
+        },
+        // 행을 클릭했을 때 이벤트
+        onRowClicked({ seq /* item의 key */ }, row, { srcElement: { cellIndex = -1 } }) {
+          // item의 key로 클릭한 열의 인덱스를 알 수 있는 map 호출 
+          const cellIndexMap = this.$refs.baseTable.getCellIndexMap()
+          // 클릭 위치(cellIndex) 확인
+          if (cellIndexMap[cellIndex] === 'surveyNm' /* 클릭한 열의 위치가 'surveyNm'(위의 fields의 key값)열이라면 */) {
+            // routeTo 함수를 사용해 페이지 이동, 필요한 데이터(key 등)는 params에 담아 전달
+            this.routeTo((ROUTE) => ROUTE.PROJECT.DATA_BANK.WRITE, { params: { seq } })
+          }
+        }
+        // ..
       }
     }
-    // ..
-  }
-}
-```
+    ```
 
 1. 기타 lifecycle 함수 설정
-```js
-export default {
-  // ..
-  // 파라미터(querystring)를 init.pagination에 설정
-  created() {
-    const param = this.$param.get()
-    this.$set(this.init, 'pagination', param)
-  },
-  // 초기 생성 시 기본값으로 검색 기능 수행
-  mounted() {
-    this.$refs.baseTable.initSearch()
-  },
-  // ..
-}
-```
+    ```js
+    export default {
+      // ..
+      // 파라미터(querystring)를 init.pagination에 설정
+      created() {
+        const param = this.$param.get()
+        this.$set(this.init, 'pagination', param)
+      },
+      // 초기 생성 시 기본값으로 검색 기능 수행
+      mounted() {
+        this.$refs.baseTable.initSearch()
+      },
+      // ..
+    }
+    ```
 
 ### base-table/raw
 페이징 등 다른 정보가 빠진 테이블
