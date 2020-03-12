@@ -21,9 +21,9 @@ Vue CLI 3 환경을 구축하여 Vue.js를 사용
 - MPA(Multiple Page Application)을 구축해야 한다면 추가적인 학습 필요(webpack의 entry의 개념을 알아야함)
 
 # 기본 환경 설정
-VSCode 혹은 기타 에디터(IDE 혹은 에디터 + Command line 환경)
-node.js (10.14.2 쓰고있는데 더 높은 버전도 될걸) - [node.js](https://nodejs.org/), [nvm](https://github.com/creationix/nvm) or [nvm-windows](https://github.com/coreybutler/nvm-windows)
-git - git 설치 안하고 써본적이 없어서 모르겠는데 git 설치하라고 에러뜨면 git 설치하기
+- VSCode 혹은 기타 에디터(IDE 혹은 에디터 + Command line 환경)
+- node.js (10.14.2 쓰고있는데 더 높은 버전도 될걸) - [node.js](https://nodejs.org/), [nvm](https://github.com/creationix/nvm) or [nvm-windows](https://github.com/coreybutler/nvm-windows)
+- git - git 설치 안하고 써본적이 없어서 모르겠는데 git 설치하라고 에러뜨면 git 설치하기
 
 # [Vue CLI](https://github.com/vuejs/vue-cli) 설치
 > Vue Cli는 어디까지나 Vue + Webpack을 커스터마이징한 자체 번들러를 갖춘 프로젝트를 **쉽게 생성하는** 것이 주 역할이므로, 다른 프로젝트를 clone 받아서 쓰거나, 자신이 환경을 처음부터 구축해볼 것이 아니라면 굳이 Vue CLI를 설치할 필요는 없음
@@ -38,13 +38,13 @@ npm i -g @vue/cli
 # 현재 폴더의 하위로 hello-world라는 vue cli 프로젝트가 생성됨
 vue create hello-world
 
-# 또는 웹브라우저로 작업하려면
+# 또는 웹브라우저로 CLI 작업을 하려면
 vue ui
 ```
-[공식사이트 설명 참고](https://cli.vuejs.org/guide/creating-a-project.html#using-the-gui)
-default를 선택하면 프로젝트가 생성됨
-(나중에 익숙해지면 Menually select features를 선택하고 추가할 기능을 선택)
-(어느 것을 선택하더라도 npm install, npm remove로 라이브러리를 추가/삭제할 수 있음)
+- [공식사이트 설명 참고](https://cli.vuejs.org/guide/creating-a-project.html#using-the-gui)
+- default를 선택하면 프로젝트가 생성됨
+- (나중에 익숙해지면 Menually select features를 선택하고 추가할 기능을 선택)
+- (어느 것을 선택하더라도 npm install, npm remove로 라이브러리를 추가/삭제할 수 있음)
 
 ```bash
 # 프로젝트 폴더에 들어가 개발서버 실행해보기
@@ -75,7 +75,7 @@ webpack으로 빌드할 때 여기 있는 파일들을 기초로 빌드함
 ### babel.config.js
 babel 설정
 ### package.json, package-lock.json
-npm 라이브러리 명세서(package-lock.json도 저장소에 공유해야 하는 것을 잊지 말고)
+프로젝트의 명세서같은거(package-lock.json도 저장소에 공유해야 하는 것을 잊지 말고)
 
 ## npm run serve
 위에서 설명했듯 npm run serve를 사용해 개발 서버를 작동시킬 수 있음
@@ -94,7 +94,7 @@ vue 파일은 에디터가 일반적으로 그냥 txt로 인식하는데, Vetur�
 ![eslint](/img/2020-03-10-10-46-43.png)
 ### msg 바꿔보기
 > npm run serve를 사용할 시, 작업 사항에 대한 반영이 실시간으로 되므로, **일반적으로** 페이지를 새로고침하지 않아도 반영됨(구조가 복잡해지면 안되는 경우도 있음..)
-프로젝트의 구조는 main.js를 통해 App.vue라는 App 컴포넌트를 부르고, 이 안에서 components/HelloWorld.vue라는 컴포넌트를 부르며 msg라는 속성을 전달하는 구조로 되어 있다.
+> 프로젝트의 구조는 main.js를 통해 App.vue라는 App 컴포넌트를 부르고, 이 안에서 components/HelloWorld.vue라는 컴포넌트를 부르며 msg라는 속성을 전달하는 구조로 되어 있다.
 ```html
 <!-- App.vue -->
 <template>
